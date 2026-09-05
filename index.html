@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>思维×语言匹配 · 马克杯刻度</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f6efe2;color:#2b2014;min-height:100vh}
+.w{max-width:640px;margin:0 auto;padding:0 16px}
+.pg{display:none}.pg.on{display:block;animation:fi .4s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.top{display:flex;align-items:center;gap:8px;padding:13px 0 11px;border-bottom:1px solid rgba(91,70,48,.15);margin-bottom:16px}
+.top-n{font-size:14px;font-weight:700}.top-t{font-size:10px;color:#9c8b73;border:1px solid rgba(91,70,48,.25);border-radius:10px;padding:2px 7px;margin-left:auto;letter-spacing:.12em}
+.bp{border:none;border-radius:50px;padding:13px 30px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#c97552,#5b3a22);color:#fff;box-shadow:0 10px 22px -8px rgba(91,58,34,.5);transition:transform .15s}
+.bp:hover{transform:translateY(-2px)}
+.bs{border:1.5px solid rgba(91,70,48,.25);border-radius:50px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;background:#fffaf1;color:#5b4630;transition:transform .15s}
+.bs:hover{transform:translateY(-2px)}
+.ic{text-align:center;padding:8px 0 26px}
+.mug{width:140px;margin:0 auto 16px;display:block;animation:fl 3s ease-in-out infinite}
+h1{font-size:clamp(22px,5vw,36px);font-weight:900;line-height:1.15;margin-bottom:10px}
+.hl{background:linear-gradient(135deg,#c97552,#5b3a22);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:14px;color:#5b4630;margin-bottom:18px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+.pill{background:#fffaf1;border:1px solid rgba(91,70,48,.18);border-radius:20px;padding:5px 12px;font-size:13px;color:#5b4630}
+.prog{position:sticky;top:6px;z-index:10;background:rgba(246,239,226,.92);backdrop-filter:blur(8px);border-radius:50px;padding:8px 14px;display:flex;align-items:center;gap:10px;margin-bottom:13px;border:1px solid rgba(91,70,48,.12)}
+.prog-t{flex:1;height:6px;background:rgba(91,70,48,.18);border-radius:3px;overflow:hidden}
+.prog-f{height:100%;border-radius:3px;background:linear-gradient(90deg,#d4a574,#c97552);transition:width .4s ease}
+.hint{background:#fffaf1;border-radius:12px;border:1px solid rgba(91,70,48,.12);padding:8px 13px;margin-bottom:13px;font-size:13px;color:#5b4630}
+.qcard{background:#fffaf1;border-radius:14px;padding:22px 20px;margin-bottom:12px;border:1px solid rgba(91,70,48,.12);box-shadow:0 4px 14px -8px rgba(91,70,48,.2)}
+.qnum{font-size:11px;letter-spacing:.1em;color:#9c8b73;margin-bottom:7px}
+.qtext{font-size:clamp(15px,2.2vw,18px);font-weight:800;line-height:1.55;margin-bottom:14px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:center;gap:9px;background:#fbf3e3;border:1.5px solid rgba(91,70,48,.13);border-radius:10px;padding:10px 13px;cursor:pointer;text-align:left;font-size:13px;color:#5b4630;font-family:inherit;width:100%;transition:border-color .15s,background .15s;line-height:1.45}
+.opt:hover{border-color:#d4a574;background:#fffaf1}.opt.sel{border-color:#c97552;background:rgba(201,117,82,.08)}
+.ol{width:24px;height:24px;border-radius:5px;background:rgba(91,70,48,.12);color:#9c8b73;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:background .15s,color .15s}
+.opt.sel .ol{background:linear-gradient(135deg,#c97552,#5b3a22);color:#fff}
+.nav{display:flex;gap:9px;margin-top:13px}.nav button{flex:1}
+.rh{text-align:center;padding:14px 0 18px}
+.rf{font-size:48px;margin-bottom:6px}
+.rn{font-size:clamp(24px,5vw,38px);font-weight:900;background:linear-gradient(135deg,#c97552,#5b3a22);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:8px}
+.rt{display:inline-block;background:#fffaf1;border:1.5px solid rgba(91,70,48,.22);border-radius:20px;padding:5px 16px;font-size:13px;color:#5b4630}
+.card{background:#fffaf1;border-radius:14px;padding:18px 20px;margin-bottom:11px;border:1px solid rgba(91,70,48,.12);box-shadow:0 4px 12px -8px rgba(91,70,48,.18)}
+.cl{font-size:11px;letter-spacing:.1em;color:#9c8b73;text-transform:uppercase;margin-bottom:10px}
+.ct{font-size:13.5px;line-height:1.85;color:#5b4630}
+.bdg{display:inline-block;background:rgba(201,117,82,.12);color:#c97552;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;margin-left:6px}
+.ei{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(91,70,48,.1)}
+.ei:last-child{margin:0;padding:0;border:none}
+.ew{font-size:16px;font-weight:800;color:#2b2014;margin-bottom:2px}
+.em{font-size:12px;color:#c97552;font-weight:600;margin-bottom:4px}
+.ey{font-size:12.5px;color:#5b4630;line-height:1.65}
+.bi{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bn{font-size:12.5px;color:#5b4630;width:64px;flex-shrink:0}
+.bk{flex:1;height:7px;background:rgba(91,70,48,.15);border-radius:4px;overflow:hidden}
+.bf{height:100%;border-radius:4px;background:linear-gradient(90deg,#d4a574,#c97552);width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.bg{height:100%;border-radius:4px;background:linear-gradient(90deg,#7e9b6c,#4a6b42);width:0;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.bv{font-size:11px;color:#9c8b73;width:22px;text-align:right}
+.ti{display:flex;gap:10px;margin-bottom:9px;font-size:13.5px;color:#5b4630;line-height:1.7}
+.tn{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#c97552,#5b3a22);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px}
+footer{text-align:center;font-size:11px;color:#9c8b73;padding:12px 0 20px}
+@media(max-width:480px){.nav{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div id="p0" class="pg on"><div class="w">
+  <div class="top">
+    <svg width="26" height="26" viewBox="0 0 36 36" fill="none"><path d="M5,8L5,28Q5,31 8,31L24,31Q27,31 27,28L27,8" stroke="#2b2014" stroke-width="2" fill="#fffaf1" stroke-linejoin="round"/><path d="M27,12Q33,13 33,19Q33,25 27,26" stroke="#2b2014" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6,22Q16,19 26,22L26,28Q26,30 24,30L8,30Q6,30 6,28Z" fill="#c97552" opacity=".32"/><line x1="5" y1="12" x2="9" y2="12" stroke="#2b2014" stroke-width="1.5"/><line x1="5" y1="18" x2="8" y2="18" stroke="#2b2014" stroke-width="1"/><line x1="5" y1="24" x2="9" y2="24" stroke="#2b2014" stroke-width="1.5"/><circle cx="13" cy="15" r="1.5" fill="#2b2014"/><circle cx="19" cy="15" r="1.5" fill="#2b2014"/><path d="M7,6L16,3L25,6L16,9Z" fill="#2b2014"/><path d="M12,7L12,11Q16,13 20,11L20,7" fill="#2b2014"/></svg>
+    <span class="top-n">马克杯·刻度</span><span class="top-t">原创自测</span>
+  </div>
+  <div class="ic">
+    <svg class="mug" viewBox="0 0 200 220"><path d="M50,90L50,188Q50,195 57,195L143,195Q150,195 150,188L150,90" fill="#fffaf1" stroke="#2b2014" stroke-width="4" stroke-linejoin="round"/><path d="M47,90L153,90" stroke="#2b2014" stroke-width="3.5" stroke-linecap="round"/><path d="M150,104Q180,107 180,137Q180,167 150,170" fill="none" stroke="#2b2014" stroke-width="4" stroke-linecap="round"/><path d="M52,152Q76,146 100,152Q124,158 148,152L148,188Q148,194 142,194L58,194Q52,194 52,188Z" fill="#c97552" opacity=".28"/><path d="M50,108L64,108M50,126L61,126M50,144L64,144M50,162L61,162" stroke="#2b2014" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="87" cy="122" r="4" fill="#2b2014"/><circle cx="113" cy="122" r="4" fill="#2b2014"/><path d="M85,134Q100,144 115,134" fill="none" stroke="#2b2014" stroke-width="2.5" stroke-linecap="round"/><path d="M57,84L100,70L143,84L100,98Z" fill="#2b2014"/><path d="M77,90L77,103Q100,112 123,103L123,90" fill="#2b2014"/><path d="M100,77Q138,82 140,100" stroke="#d4a574" stroke-width="1.8" fill="none" stroke-linecap="round"/><rect x="137" y="100" width="7" height="11" rx="2" fill="#d4a574"/></svg>
+    <h1>你的思维方式<br>适合学<span class="hl">哪种小语种</span>？</h1>
+    <p class="sub">25道题 · 四维分析 · 精准匹配16种语言</p>
+    <div class="pills"><span class="pill">📝 25道题</span><span class="pill">⏱ 约7分钟</span><span class="pill">🌍 16种语言</span><span class="pill">🔬 四维分析</span></div>
+    <button class="bp" onclick="startQ()" style="padding:14px 40px">开始测试 →</button>
+  </div>
+  <footer>© 马克杯刻度 ｜ 原创测试，未经授权禁止转载</footer>
+</div></div>
+
+<div id="p1" class="pg"><div class="w">
+  <div class="top">
+    <svg width="26" height="26" viewBox="0 0 36 36" fill="none"><path d="M5,8L5,28Q5,31 8,31L24,31Q27,31 27,28L27,8" stroke="#2b2014" stroke-width="2" fill="#fffaf1" stroke-linejoin="round"/><path d="M27,12Q33,13 33,19Q33,25 27,26" stroke="#2b2014" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6,22Q16,19 26,22L26,28Q26,30 24,30L8,30Q6,30 6,28Z" fill="#c97552" opacity=".32"/><line x1="5" y1="12" x2="9" y2="12" stroke="#2b2014" stroke-width="1.5"/><line x1="5" y1="18" x2="8" y2="18" stroke="#2b2014" stroke-width="1"/><line x1="5" y1="24" x2="9" y2="24" stroke="#2b2014" stroke-width="1.5"/><circle cx="13" cy="15" r="1.5" fill="#2b2014"/><circle cx="19" cy="15" r="1.5" fill="#2b2014"/><path d="M7,6L16,3L25,6L16,9Z" fill="#2b2014"/><path d="M12,7L12,11Q16,13 20,11L20,7" fill="#2b2014"/></svg>
+    <span class="top-n">马克杯·刻度</span><span class="top-t">原创自测</span>
+  </div>
+  <div class="prog"><div class="prog-t"><div class="prog-f" id="pf"></div></div><div style="font-size:13px;color:#9c8b73;white-space:nowrap"><span id="pnum">1</span>/<span id="ptot">25</span></div></div>
+  <div class="hint" id="hint">☕ 选第一感觉，不要选「应该怎样」的答案</div>
+  <div class="qcard"><div class="qnum" id="qnum"></div><div class="qtext" id="qtext"></div><div class="opts" id="opts"></div></div>
+  <div class="nav"><button class="bs" id="bP" onclick="prevQ()">← 上一页</button><button class="bp" id="bN" onclick="nextQ()">下一页 →</button></div>
+  <footer>© 马克杯刻度 ｜ 原创测试，未经授权禁止转载</footer>
+</div></div>
+
+<div id="p2" class="pg"><div class="w">
+  <div class="top">
+    <svg width="26" height="26" viewBox="0 0 36 36" fill="none"><path d="M5,8L5,28Q5,31 8,31L24,31Q27,31 27,28L27,8" stroke="#2b2014" stroke-width="2" fill="#fffaf1" stroke-linejoin="round"/><path d="M27,12Q33,13 33,19Q33,25 27,26" stroke="#2b2014" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6,22Q16,19 26,22L26,28Q26,30 24,30L8,30Q6,30 6,28Z" fill="#c97552" opacity=".32"/><line x1="5" y1="12" x2="9" y2="12" stroke="#2b2014" stroke-width="1.5"/><line x1="5" y1="18" x2="8" y2="18" stroke="#2b2014" stroke-width="1"/><line x1="5" y1="24" x2="9" y2="24" stroke="#2b2014" stroke-width="1.5"/><circle cx="13" cy="15" r="1.5" fill="#2b2014"/><circle cx="19" cy="15" r="1.5" fill="#2b2014"/><path d="M7,6L16,3L25,6L16,9Z" fill="#2b2014"/><path d="M12,7L12,11Q16,13 20,11L20,7" fill="#2b2014"/></svg>
+    <span class="top-n">马克杯·刻度</span><span class="top-t">原创自测</span>
+  </div>
+  <div id="rH" class="rh"></div>
+  <div id="rG" class="card"></div>
+  <div id="rC" class="card"></div>
+  <div id="rE" class="card"></div>
+  <div id="rT" class="card"></div>
+  <div id="rX" class="card"></div>
+  <div id="rD" class="card"></div>
+  <div id="rO" class="card"></div>
+  <div id="rA" class="card"></div>
+  <div style="margin-top:8px"><button class="bs" style="width:100%" onclick="restart()">重新测一次</button></div>
+  <footer>© 马克杯刻度 ｜ 原创测试，未经授权禁止转载</footer>
+</div></div>
+
+<script>
+var DK=['D','L','E','S','Y','T','M','P','I','C'];
+var DN=['细节感知','逻辑分析','情感表达','社会感知','系统规律','音韵节律','隐喻诗性','直接务实','内省自然','集体共情'];
+var CTlb={Ph:'音素感知型',Gr:'语法直觉型',Ind:'归纳推理型',Mc:'联想记忆型'};
+var CTtx={
+Ph:'你的「音素编码能力」在平均水平之上（Carroll MLAT，1959）——对声调差异、音色特征和发音细节有超出平均的感知力。学习{L}时，你的耳朵是最大的武器：先大量输入让语音系统自然成形，语法和词汇往往跟着听觉直觉自动到位，不是靠规则表格推导出来的。',
+Gr:'你的「语法敏感度」较强（Carroll MLAT，1959）——能本能感知句子结构内部的逻辑变化，「这个用法不对」对你来说是直觉而非规则。学习{L}时，可以早早切入真实语料让语感先行；语法规则对你来说是事后的确认，不必把自己关在语法书里才敢开口。',
+Ind:'你的「归纳学习能力」较强（Carroll MLAT，1959）——善于从语言样本中自动提炼规律，不需要逐一记忆每个例外。学习{L}时，接触大量真实语料让你自动归纳，往往比先学一条语法规则再做练习更适合你——你的大脑在接触中学习，而不是在规则里记忆。',
+Mc:'你的「联想记忆能力」较强（Carroll MLAT，1959）——能高效地把新信息「挂」在已有知识结构上建立词汇网络。学习{L}时，用「意象联想」「词族联想」「场景记忆」代替纯粹的单词本——你的大脑天生用网络方式存储词汇，顺势而为比对抗本能更高效。'};
+var ESlb={E:'共情导向型',S:'系统导向型',B:'E-S平衡型'};
+var EStx={
+E:'「共情导向型认知者」（Baron-Cohen E-S理论，2002）——你先感受「人与关系」，再理解「规则与系统」。学习{L}时，从真实的人际交流、情感故事、文化沉浸切入是你最快的路径；语法会在你开始「感受」这门语言之后自然补齐——你不需要先「懂」，你需要先「感觉到」。',
+S:'「系统导向型认知者」（Baron-Cohen E-S理论，2002）——你的大脑天生在数据中寻找「输入-运算-输出」的关系，从规律和结构中获得愉悦。学习{L}时，先把握语法骨架和词汇系统的内在逻辑是你最高效的入门路径——「先把系统搞清楚」会给你最大的学习安全感。',
+B:'「E-S平衡型认知者」（Baron-Cohen E-S理论，2002）——你既能感知关系和情境，也能把握规则和系统。学习{L}时，可以根据状态灵活切换：有时从情感故事沉浸进入，有时从语法逻辑梳理进入——两条路径都对你有效。'};
+var TPlb={past:'过去导向',pres:'当下导向',fut:'未来导向',cyc:'循环导向'};
+var TPtx={
+past:'「过去导向型时间感」（Boroditsky时间认知研究，2001）——你对「已经发生的、已经失去的」有深切的情感重量。这种时间感和{L}的文化世界有内在共鸣：很多你将接触到的表达和文学都建立在对「曾经」的精细感知上——你不需要翻译就能在直觉上感受到它的重量。',
+pres:'「当下导向型时间感」（Boroditsky时间认知研究，2001）——你活在此刻，感受力强于规划力。语言是在「此刻想说这句话」的冲动里学会的，不是在「我以后会用到它」的计划里学会的。让你的当下驱动学习{L}的节奏——不必为没有长期计划而焦虑。',
+fut:'「未来导向型时间感」（Boroditsky时间认知研究，2001）——你习惯规划、预判和假设，时间对你来说是可以设计的资源。学习{L}时，为自己设定清晰的里程碑目标能给你最大的动力——你的大脑需要知道「目的地」才能高效运转。',
+cyc:'「循环导向型时间感」（Boroditsky时间认知研究，2001）——你感知时间的方式是循环的而非线性的，过去和未来在某种意义上都在当下里相互呼应。{L}的文化世界里有大量循环式的时间哲学——命运感、轮回感、「此刻正在重演某件过去的事」——这对你来说是熟悉而非陌生的。'};
+
+var LANGS=[
+{k:'JPN',n:'日语',f:'🇯🇵',t:'你活在别人跳过的那0.5秒里',
+nr:'你对细节和氛围的本能感知说明「默认模式网络（DMN）」持续高度激活——负责无意识扫描环境、感受隐含信息。日语大量意义藏在停顿、语气词和留白里，正好需要这种持续运转的背景感知系统；你不需要训练自己变敏感，你本来就是。',
+ex:[['木漏れ日','阳光穿过树叶的光影','把短暂之美固化为名词——中文没有「瞬间美感专属词」，这种命名冲动本身就是极致细节感知的体现。'],['物の哀れ','因短暂美好而生的温柔悲感','不是悲伤不是感动，是两者之间无法命名的细腻地带——日语为这种「无法停靠」的情感单独造了一个词。'],['間（ま）','有意义的留白与停顿','中文的「空」是缺失，「間」是主动的存在——日语将沉默本身视为有内容的表达，不是「没有」，而是「别样的有」。']],
+ac:['从假名书写入手感受笔画节奏——写出来才能感受「間」的美学，不要只背发音。','用《编舟记》《步履不停》做沉浸听力，专注角色沉默时的言外之意。','每天记一个「感觉词」配自己真实经历的例句——情感记忆比抽象背诵有效得多。'],
+v:[3,0,0,2,0,1,1,0,3,0]},
+{k:'FRE',n:'法语',f:'🇫🇷',t:'你的大脑永远在进行一场安静的辩论',
+nr:'你倾向于先在脑中整理好论据再开口，说明「背外侧前额叶（DLPFC）」——演绎推理的核心区域——可能特别活跃。法语句子从语法结构上就是一个小论证：嵌套从句、先结论后论据，你的大脑已经在用法语的方式组织信息了，只是还没有这门语言来装它。',
+ex:[["L'esprit de l'escalier",'离开后才想到的完美回答','专门命名「最佳时机已过」的遗憾——中文只有「事后诸葛亮」，但那是评价，不是这种瞬间感受本身。'],['Dépaysement','在异地感到自我被暂时解除的双重感','不是旅游不是思乡——是在陌生地方感到「自我被暂时解除」的特殊状态，中文无法一词表达。'],['Flâner','漫无目的地在城市游荡，本身就是目的','中文的「逛」总隐含某种目的，但flâner把「无目的」本身变成目的——这是一种哲学态度，非活动描述。']],
+ac:["先系统攻克音素规律（au/eau/oi等），把它当「密码破解」而非死记硬背，两周内可拼读陌生词。","学辩论核心句式\"D'un côté...de l'autre\"，用法语练习你本来就擅长的结构化表达。",'TV5Monde慢速新闻沉浸，关注每段的「论点-论据-结论」。'],
+v:[1,3,0,0,0,0,2,0,1,0]},
+{k:'ESP',n:'西班牙语',f:'🇪🇸',t:'你不怕感受，也不怕让人感受到你',
+nr:'你倾向于先感受再分析，情绪对你是信息而非噪音，说明「情感感知颗粒度」较高——大脑能精细区分不同情绪状态，与前扣带回皮层（ACC）的活跃程度直接相关。西班牙语拥有比中文更细腻的情绪词汇体系，你天生就能被情绪带进语言里。',
+ex:[['Madrugada','深夜到黎明之间的特定时段','中文的「夜」笼统覆盖晚上到天亮，西班牙语把「凌晨那段时间」单独命名——那段时间有自己独特的情感质地。'],['Vergüenza ajena','因别人的尴尬而感到代入性尴尬','比「替人脸红」更精确——是他人之耻直接触发你的情绪系统，是高共情神经回路的语言体现。'],['Sobremesa','饭后继续坐在桌边聊天的时光','西班牙语把「饭后桌边时光」命名为独立的生活时态——吃饭是借口，这个时刻才是真正的目的。']],
+ac:['第一周学10个情绪词，每个配真实经历的句子——情感作为记忆锚点，是你最快的入门路径。','用Rosalía的音乐建立语感，打印歌词边听边标——西班牙语发音对中文母语者极为友好。','Tandem/HelloTalk找语伴——西班牙语母语者是全球最热情的语言练习伙伴之一。'],
+v:[0,0,3,1,0,2,0,0,0,0]},
+{k:'GER',n:'德语',f:'🇩🇪',t:'你不是在做一件事，你是在建一套系统',
+nr:'你把复杂事物模块化拆解再重组的习惯，说明「前额叶递归规划网络」擅长处理层级嵌套信息。德语格变化、合成词系统和动词框架，正是一套需要递归规划才能感到「自洽」的语言结构——你的大脑处理德语语法时感受到的会是逻辑美感，而非混乱。',
+ex:[['Weltschmerz','因现实与理想差距而生的深层哲学式痛苦','比「悲天悯人」更精确——是「世界本不该如此」这种感知本身带来的特定痛苦，中文无法一词表达。'],['Verschlimmbessern','越想改善越弄得更糟（这是一个动词）','中文需要整句话说清「好心把事情搞砸」，德语用一个合成词搞定——逻辑密度的极致体现。'],['Fingerspitzengefühl','对微妙情况的直觉性精准把握','字面是「指尖感」，实际是难以言说的细腻感知力——德语把抽象能力物化为身体感知。']],
+ac:['用3×4表格整理冠词变化（der/die/das×四格）——「逻辑矩阵」一旦看清就变成自洽系统而非死记。','从词根分析建词汇库：Krankenhaus=Kranken+Haus=医院，词汇会以系统方式增长。','Deutsche Welle慢速德语沉浸，信息密度高、逻辑清晰，契合你的思维节奏。'],
+v:[0,3,0,0,3,0,0,1,0,0]},
+{k:'KOR',n:'韩语',f:'🇰🇷',t:'你永远知道房间里谁需要被看见',
+nr:'你天然关注「谁需要被看见」「当前关系氛围是否对」，说明「颞顶联合区（TPJ）」——负责社会推理和他人视角模拟的脑区——可能比一般人更活跃。研究发现TPJ活跃程度与习得韩语敬语体系的速度直接相关（Yoo et al., 2019）——韩语要求你时刻感知关系层级，这正是你已经在做的事。',
+ex:[['눈치（nunchi）','不需言语就能读懂氛围和他人感受的能力','中文没有专门命名「读氛围能力」的词——韩语将这种能力视为独立技能，体现了它在韩国文化中的核心地位。'],['정（jeong）','在长期相处中自然生长出的特殊依恋感','不是爱不是友情，是比两者都更难说清楚的「时间积淀的连接」——中文需要一整段话才能解释。'],['눈물겹다','让人泪水盈眶却还未落下的感动','精确描述「眼眶湿润但泪未落」的状态——情感颗粒度达到了毫米级别。']],
+ac:['先学韩文字母（한글）：1-2周可流利拼读，字母系统设计精妙，是最快建立成就感的途径。','用《请回答1988》沉浸听力，专注角色在家人、朋友、长辈面前说话方式的微妙切换。','先背有「社交温度」的词：수고했어요（辛苦了）几乎适用所有道别场景，是真实沟通的起点。'],
+v:[1,0,0,3,0,1,0,0,0,0]},
+{k:'ARA',n:'阿拉伯语',f:'🇸🇦',t:'你感知到词语之间的血缘关系',
+nr:'你对词汇之间「内在联系」的直觉感知说明大脑擅长「语义网络的横向激活」——一个概念能同时唤醒它周围的词族。阿拉伯语三辅音词根系统恰好需要这种能力：理解了词根就理解了一片语义区域。研究发现擅长这种联系感知的人学习速度快约40%。',
+ex:[['طرب（tarab）','因音乐产生的极致情感共鸣，接近出神','不只是「喜欢」——是音乐触发接近灵魂震动的状态，中文没有描述「音乐带来灵魂出窍感」的专词。'],['يسعد صباحك','愿你的早晨幸福（回应早安的方式）','中文「早安」是陈述，阿拉伯语问候是「诗意祝愿」——整个打招呼体系建立在「愿望」上，而非功能性信息交换。'],['ما شاء الله','赞美时用来避免嫉妒之眼的祷语','同时包含赞美、感恩和文化防御——复杂文化逻辑浓缩在一句话里，无中文等价物。']],
+ac:['先学三辅音词根系统：掌握50个词根等于同时学了数百个词，你的大脑会在这里找到「发现血缘关系」的愉悦。','用古兰经诵读音频建立语感——阿拉伯语的音律美是独一无二的，让耳朵先爱上它。','选「现代标准阿拉伯语」（MSA）作入门路径，可在22个国家通用。'],
+v:[0,1,0,0,0,2,3,0,0,0]},
+{k:'RUS',n:'俄语',f:'🇷🇺',t:'你能看到别人看不见的那条蓝色边界',
+nr:'你对细节和深度的持续关注说明可能有更强的「感知精细化倾向」。Winawer等（2007）发现俄语母语者视觉皮层对蓝色边界的神经反应更快，因为俄语区分浅蓝（голубой）和深蓝（синий）——语言直接重塑感知神经回路的铁证，你对细节的本能敏感正是这门语言最宝贵的学习起点。',
+ex:[['Тоска（toska）','无法归因的深层渴望，灵魂的不安','Nabokov说英文里没有对应词——比「忧愁」更深，是一种没有对象的「灵魂渴望」，中文的「愁」接近但不够深。'],['Авось','对某种说不清好运的信任，一种命运感','类似「也许命运会眷顾」，但带着俄式「豁出去了」的壮烈感——中文的「随缘」太平静。'],['Надрыв','情感过载到即将崩溃前的极度紧绷','陀思妥耶夫斯基最爱用这个词——不是崩溃，是即将崩溃前的临界状态，情感被拉伸到极限的那一刻。']],
+ac:['先学西里尔字母（1-2周可拼读），发现大量字母与希腊字母同源——这个发现是最好的记忆锚点。','从俄罗斯文学的简编版入手，感受俄语独特的情感逻辑——对语言的深度兴趣通常比方法更重要。','通过俄语格系统学习精确的空间描述——俄语让方向和位置的感知极其细腻。'],
+v:[2,2,0,0,1,0,1,0,2,0]},
+{k:'POR',n:'葡萄牙语',f:'🇵🇹',t:'你爱着那些已不在的，和那些可能永不存在的',
+nr:'你对「已经过去的」或「可能永不会来的」事物的深切感受说明「海马体-奖励回路」在「怀旧感」状态下有更强的激活——Sedikides研究发现这种神经状态与创造性联想能力高度重叠。葡萄牙语的核心情感saudade是一种时间观：爱着那已不在的，你能理解这种感受说明你已拥有理解这门语言最深处的能力。',
+ex:[['Saudade','对某个已失去或可能永不存在之物的深切思念','没有语言能完全翻译它——「乡愁」太具体，「惆怅」太泛，它是「爱着那已不在的」的特殊状态。'],['Desenrascanço','在困境中临时发明出一个有效但略混乱的解决方案','类似「临时抱佛脚」，但带着骄傲感——葡萄牙语把「乱中生智」命名为值得自豪的积极能力。'],['Madrugada','深夜到黎明间那段时间（带有孤独和哲学意味）','Fado音乐诞生在这个时段的情绪里——比西班牙语版本多了一层「在深夜独自存在」的存在感。']],
+ac:['从巴萨诺瓦（Bossa Nova）和法朵（Fado）音乐入手——情感驱动型学习者在这里最容易找到持续动力。','葡萄牙语与西班牙语70%词汇相似，如有西语基础可快速迁移，入门门槛大幅降低。','建立「感受词汇本」：专门收集描述复杂情感状态的葡语词，这是最契合你认知风格的学习路径。'],
+v:[0,0,2,0,0,0,2,0,3,0]},
+{k:'ITA',n:'意大利语',f:'🇮🇹',t:'你的大脑用感官来思考',
+nr:'你的感知和学习高度依赖感官输入，说明「镜像神经元系统」对感官-语言的协同激活可能特别敏感。研究发现意大利语丰富的韵律模式和手势-语言协同恰好持续激活这套系统——你的感官会比你的理性更快学会意大利语，让耳朵和身体先走，头脑跟上就行。',
+ex:[['Abbiocco','吃完大餐后那种特定的昏昏欲睡','意大利语专为「饭后困意」造了名词——把这种感官状态命名为独立存在，体现了「感受本身值得被记录」的文化信念。'],['Magari','要是真能这样就好了——希望和清醒同时存在','同一个词承载「希望」和「可能性微小」——比中文「要是多好」更轻盈，是wishful thinking的精确表达。'],['Culaccino','杯底在桌面留下的圆形水渍','世界上最细腻的词之一——专为「杯底痕迹」造名词，这种命名冲动本身就是对日常细节的美学凝视。']],
+ac:['从歌剧或流行（Laura Pausini等）入手——感官会比大脑更快学会这门语言，让耳朵先走。','学意大利语手势：手势是语言的一部分，对感官学习者来说是建立语感的最快方式。','用食物和感官词汇作记忆锚点：al dente、profumo、dolce vita——身体记忆是最牢固的记忆钩子。'],
+v:[2,0,2,0,0,2,0,0,0,0]},
+{k:'THA',n:'泰语',f:'🇹🇭',t:'你对声音和关系都有天然的精密感知',
+nr:'你同时具备对声音细节的感知力和对关系氛围的高度敏感，分别对应「音调感知回路」（右半球颞叶）和「社会推理网络」（TPJ）。泰语5声调需要精确的音调感知（音调感知能力强的人掌握声调语言平均快40%），精密的敬语体系需要持续的关系感知——你天生就带着两把钥匙。',
+ex:[['เกรงใจ（kreng jai）','体贴到不愿给对方添麻烦，有时压抑真实想法','中文有「不好意思」，但kreng jai更深——是预防性的「不打扰」，关系敏感度高到有时阻碍自我表达。'],['สนุก（sanuk）','把享受和乐趣注入几乎所有活动的生活哲学','不只是「好玩」——泰国文化认为任何事都应有sanuk，是把「享乐感」内嵌进存在本身的世界观。'],['ไม่เป็นไร（mai pen rai）','没关系——一种超然的释然哲学','表面是「没关系」，实际包含「执念无益」的整套哲学——中文的「算了」有放弃感，mai pen rai是真正的超然。']],
+ac:['声调训练是第一关，建议用「声调+视觉/情绪图形」记忆法，利用你的音调感知优势突破难关。','用泰剧沉浸听力，关注人物对不同角色时声调和词汇的微妙切换——这正是你天然擅长感知的。','先理解kreng jai文化背后的逻辑——文化理解是语言感知的基础，这一步不能省。'],
+v:[0,0,0,2,0,2,0,0,2,0]},
+{k:'TUR',n:'土耳其语',f:'🇹🇷',t:'你把世界理解为可以无限搭建的积木',
+nr:'你对系统构建的偏好、把复杂事物「模块化」再「重组」的思维习惯，说明「前额叶递归规划网络」擅长处理分层嵌套信息。土耳其语粘着词缀系统的逻辑正是这种结构的语言版本：一个词根叠加后缀，每一层都有明确意义，整个词是一个逻辑链条——你的大脑会感到系统的优雅，而不是混乱。',
+ex:[['Hüzün','一个城市或文明层面的集体忧郁','不是个人情绪，是文化共同体的集体感受——帕慕克在《伊斯坦布尔》专门论述这种「城市之愁」，中文无法一词表达。'],['Kader','命运——但包含接受和诗意','比「命运」更有温度，比「天命」更日常——土耳其语里命运是被诗意地接受的，而不只是被服从的。'],['Yakamoz','月光在水面上的反射路径','与瑞典语mångata描述同一现象，但yakamoz更带博斯普鲁斯海峡特有的感伤色彩——那条月光路是有地理记忆的。']],
+ac:['先学词根+后缀系统：当你看清整个系统的内在逻辑，你会感到「啊，原来如此」的系统美感。','用土耳其连续剧（迪兹）沉浸听力，全球流行、语言清晰度高、适合初学者。','建立词缀叠加练习：从一个词根逐步叠加后缀，感受词义「像乐高一样搭建」的过程。'],
+v:[0,1,0,0,3,0,0,2,0,0]},
+{k:'GRE',n:'希腊语',f:'🇬🇷',t:'你有七种爱，每一种都需要不同的词',
+nr:'你对情感状态的精细区分以及对哲学概念的自然亲近，说明「前扣带回（ACC）」在处理情绪和抽象概念时有更广的激活范围。Lisa Barrett情感颗粒度研究（2017）发现这种能力与ACC激活精度直接相关——希腊语有7种「爱」，是情感颗粒度高、思维偏向哲学深度的人的语言天堂。',
+ex:[['Meraki','全心全意投入某事，把灵魂注入其中','不只是「用心」——meraki是「这件事里有我的灵魂」，强调创作者与作品的融合，中文最近的「匠心」缺少情感色彩。'],['Philotimo','荣誉感、慷慨、对他人责任感的综合体','希腊文化最重要的概念之一——不是「有面子」，是「做一个值得尊重的人」的内在驱动，无法用一个中文词翻译。'],['Kefi','因音乐、舞蹈、喜悦而产生的集体狂喜','是一群人因共同音乐而短暂「成为同一个东西」的状态——西班牙语的duende是个人版本，kefi是集体版本。']],
+ac:['先学希腊字母——大量科学词汇来自希腊语，认出字母后你会发现自己「已经认识」几百个词。','从「爱的词汇」入手：研究eros/philia/agape的区别，这是希腊语情感颗粒度系统的精华。','用希腊音乐（雷贝蒂卡或现代流行）沉浸感受kefi——在爱上音乐之后，语言会自然跟来。'],
+v:[0,2,1,0,0,0,3,0,0,0]},
+{k:'VIE',n:'越南语',f:'🇻🇳',t:'你听得见别人听不见的那层声音',
+nr:'你对声音细节的敏锐感知和对诗意表达的偏好，说明「听觉皮层对音调信息的处理」可能比一般人更精细。越南语6声调系统需要音高感知与语义解码的双通路同步运作——研究发现越南语母语者对音调细节的神经反应比非声调语言使用者快约20ms（Bidelman et al., 2013）。你的音调感知本能是突破这道门槛最关键的天赋。',
+ex:[['Thương','爱的一种，带着怜悯和心疼','中文有「疼」但不够准确——thương是「爱着一个需要被保护的人同时感到心疼和担忧」，这种情感颗粒度是越南语特有的。'],['Duyên','命中注定的缘分，比中文「缘分」更主动、更诗意','包含「这段缘分是宇宙意志，我只是顺应它」——带着审美距离和诗意感，中文的「缘分」太平实了。'],['Bâng khuâng','无来由的惆怅，心思漂游在没有名字的地方','越南语诗歌中最常出现的状态——不是悲伤不是焦虑，是心绪飘荡却落不到实处的感受。']],
+ac:['6声调是第一关，用「声调+视觉形象」记忆法：给每个声调配一个箭头图形，利用视觉感知优势突破难关。','越南语发音对中文母语者相对友好，先专注北方口音（河内）建立标准基础。','亲属称谓系统（tôi/anh/chị/em的选择）是理解越南文化的钥匙——理解这个就理解了越南人的关系哲学。'],
+v:[2,0,0,0,0,3,0,0,0,0]},
+{k:'SWE',n:'瑞典语',f:'🇸🇪',t:'你活在「够了」和「刚好」之间',
+nr:'你对「过多和过少」之间边界的天然感知说明「前额叶-杏仁核自我调节回路」连接可能较为紧密——Yerkes-Dodson定律研究发现善于自我调节者能自然感知「过多/过少/刚好」的临界点。瑞典语文化中的Lagom（不多不少）正是这种神经能力的语言化——一个懂得「刚好」的人进入瑞典语文化，会有一种「终于被理解了」的感觉。',
+ex:[['Lagom','不多不少，恰到好处——对「适度」的哲学崇拜','中文有「适度」，但lagom是主动的美学选择而非被动妥协——把「不出头」变成审美理想，甚至是道德准则。'],['Mångata','月光在水面上拉出的那条路','那条月光路仿佛在邀请你离开——带着「走向远方」的孤独感，比单纯说「月光反射」多了整个情绪维度。'],['Fika','喝咖啡的停顿，作为社交仪式和日常休息','不只是「喝咖啡」——fika是每天两次必须发生的「停下来」，是把「休息和连接」内嵌进工作日程的文化制度。']],
+ac:['瑞典语语调有一种音乐感——先通过瑞典音乐建立语调感受，你的平衡感会是很好的学习优势。','用「Lätt svenska med Oskar」等慢速瑞典语播客沉浸，语速友好、话题日常。','研究「Jantelagen」（你不应该认为自己比别人好）文化——理解这个价值观才能理解为什么瑞典语表达总是那么「平」。'],
+v:[0,0,0,1,0,0,0,1,2,2]},
+{k:'HEB',n:'希伯来语',f:'🇮🇱',t:'你感知到语言背后的骨架',
+nr:'你对「词汇背后的结构」有直觉感知、习惯在表面现象下寻找底层逻辑，说明「顶叶-前额叶模式识别网络」擅长处理抽象规律（Frost et al., 2005）。希伯来语三辅音词根体系是一套「所有词都有骨架，所有骨架都可见」的语言——你的大脑会在这里感到找到「语言DNA」的智识快感。',
+ex:[['Davka','专门/偏偏——做某事有「就是要这样」的坚持或逆反感','没有中文直接对应词——最近的是「偏偏就要」，但davka更中性，是以色列文化特有的「主动态度词」。'],['Freier','一个太容易被占便宜、太善良轻信的人','以色列文化最怕成为freier——这种对「被占便宜」的文化敏感，造就了以色列人特有的直接感。'],['Bitachon','建立在内心确信上的安全感，而非来自外部条件','不是「信心」不是「信念」——是「无论外在如何，内心有一种稳定」的状态，背后是独特的安全感哲学。']],
+ac:['先学希伯来字母（22个）和词根系统：词根是整个语言的骨架，掌握100个词根等于建立数百个词的认知网络。','现代希伯来语是20世纪人工复兴的语言，词汇创新逻辑清晰——这个「语言工程」背景会让你产生特别的迷恋。','用以色列流行音乐和电影（如《狐步舞》）沉浸，感受希伯来语在现代语境中的活力。'],
+v:[0,2,0,0,2,0,2,0,0,0]},
+{k:'FIN',n:'芬兰语',f:'🇫🇮',t:'你比任何人都更会和沉默在一起',
+nr:'你对独处的自在、对沉默的接纳以及活在当下而非持续规划未来的倾向，说明「前额叶对未来模拟的资源占用较低」——大脑不需要持续消耗能量预测未来，而是更多停留在当下体验中。芬兰语甚至没有严格的未来时态，从语法层面就在鼓励你留在当下——你和芬兰语，可能是同一种安静。',
+ex:[['Sisu','在极度困难下坚持的内在钢铁意志，超越普通坚韧','中文有「韧性」，但sisu是文化英雄主义——在一切希望熄灭之后仍然继续的能力，是芬兰民族身份的核心。'],['Talkoot','社区成员自愿聚集完成共同任务','古老的集体劳动文化——不是被组织的，是自发聚集的。中文「义工」接近，但talkoot更强调「邻里之间不需要说的默契」。'],['Kalsarikänni','穿着内裤在家独自喝酒，放弃出门的打算','被芬兰政府收录进官方表情包——体现了对「内向快乐」的高度接受，把「体面地宅」命名为一种光荣的状态。']],
+ac:['芬兰语语音非常规律（所见即所读），入门发音关容易度过——先享受「拼读就是发音」的成就感。','先理解「为什么需要15个格」（芬兰语用格代替介词），再逐步学每个格的使用场景，不要一次全背。','用YLE Uutiset selkosuomeksi（芬兰广播简单芬语新闻）沉浸，语速清晰适中。'],
+v:[0,0,0,0,1,0,0,2,3,0]}
+];
+
+var QS=[
+{q:'发呆时，你脑子里通常在干什么？',o:[['A','反复回味某个画面或细节',{D:2}],['B','梳理某个未解决问题的逻辑',{L:2}],['C','想念某个人或某段时光',{I:1,M:1}],['D','思考下一步怎么安排',{Y:2}],['E','猜测朋友们现在在干什么',{S:1,C:1}]]},
+{q:'听到一首新推荐的歌，你第一注意到的是？',o:[['A','歌词里的意象和用词',{M:2,D:1}],['B','旋律的节拍和规律',{T:2}],['C','这首歌让你想起了什么',{I:1,M:1}],['D','声音的质感和音色',{D:1,T:1}],['E','歌传达的情绪和故事',{E:2}]]},
+{q:'你最容易被哪类内容深深吸引？',o:[['A','有氛围感的图片/视频，看了想在里面待着',{D:2,I:1}],['B','把复杂的事说清楚了的深度分析文章',{L:2}],['C','让你突然共情想哭的故事',{E:2,M:1}],['D','有趣的规律或数据，世界居然是这样运作的',{Y:2,L:1}],['E','有诗意的语言，某句话让你反复回味',{M:2}]]},
+{q:'陌生的聚会上，你通常？',o:[['A','静静观察每个人的状态和细节',{D:1,I:1}],['B','主动聊天，快速摸清大家的情况',{S:2,P:1}],['C','找一个人深聊，比广泛社交更满足',{I:1,M:1}],['D','关注谁需要被注意到，主动过去',{S:1,C:2}],['E','提前心里想好话题，尽量让自己显得自然',{Y:1,L:1}]]},
+{q:'遇到困难，你的第一反应是？',o:[['A','先坐着消化一下，不急着行动',{I:2}],['B','拆解问题，找到根本原因再行动',{L:2,Y:1}],['C','立刻说出来，聊聊就会好很多',{E:1,C:1}],['D','直接列清单，开始逐步解决',{P:2,Y:1}],['E','接受它，顺势找到下一步',{I:1,T:1}]]},
+{q:'学新东西时，你最容易用哪种方式记住？',o:[['A','通过画面、氛围和身体感受',{D:2,I:1}],['B','通过理解底层逻辑和规则',{L:2,Y:1}],['C','通过和别人讨论，边聊边记',{S:1,C:1}],['D','通过声音、节奏和反复念读',{T:2}],['E','通过隐喻和故事来理解',{M:2}]]},
+{q:'你如何处理负面情绪？',o:[['A','一个人消化，不打扰别人',{I:2}],['B','分析情绪的来源，搞清楚为什么',{L:2}],['C','直接表达出来，说出来就好了',{E:2}],['D','找事情做，转移注意力',{Y:1,P:1}],['E','找朋友或社群倾诉，靠大家的力量',{C:2,S:1}]]},
+{q:'你认为语言最重要的功能是？',o:[['A','精确传达信息，减少误解',{P:2,L:1}],['B','表达情感和内心世界',{E:2,M:1}],['C','建立人与人之间的连接',{S:1,C:2}],['D','记录和组织自己的思考',{I:2,L:1}],['E','创造诗意和超越日常的美感',{M:2,D:1}]]},
+{q:'你最享受哪种独处状态？',o:[['A','在大自然里，什么都不想',{I:2,T:1}],['B','读书或写作，整理自己的思路',{L:1,I:1}],['C','听音乐，完全沉浸在节奏里',{T:2,M:1}],['D','专注做一件需要精力的事',{Y:2,D:1}],['E','回想过去或想象未来，思绪漫游',{I:2,M:1}]]},
+{q:'和朋友产生分歧时，你更可能？',o:[['A','克制情绪，把话说清楚',{L:1,P:2}],['B','情绪先上来，事后再理性处理',{E:2}],['C','先照顾对方的感受，再谈立场',{S:2,C:1}],['D','委婉表达，不愿正面冲突',{S:1,I:1}],['E','快速找到双方共同点，化解分歧',{C:2,P:1}]]},
+{q:'你觉得「美」最接近于？',o:[['A','某种精确的秩序和对称',{Y:1,D:1}],['B','一个无法言说的瞬间感受',{D:1,I:2}],['C','一段让你起鸡皮疙瘩的旋律',{T:2,E:1}],['D','一句话触碰了你最深的地方',{M:3}],['E','一个人对另一个人的善意',{C:1,S:2}]]},
+{q:'你会花最多时间在哪件事上？',o:[['A','精细打磨一个作品的细节',{D:2,I:1}],['B','搞清楚一个问题的底层逻辑',{L:2}],['C','维护和深化重要的人际关系',{S:1,C:2}],['D','建立更高效的系统和工作流',{Y:2,P:1}],['E','沉浸在音乐、诗歌或艺术里',{T:1,M:2}]]},
+{q:'哪句话最像你的内心独白？',o:[['A','「这个细节不对，但只有我注意到了」',{D:2}],['B','「等等，这个逻辑有漏洞」',{L:2}],['C','「我就是这么感受到的，管它呢」',{E:2}],['D','「按计划来，不要乱」',{Y:2}],['E','「等等，大家都好吗？」',{S:2,C:1}]]},
+{q:'你最理想的工作方式是？',o:[['A','安静独立，深度专注，不被打断',{I:2,D:1}],['B','有清晰目标和框架，按逻辑推进',{L:1,Y:2}],['C','和志同道合的人一起，互相激发',{C:2,S:1}],['D','跟着感觉和节奏，有足够自由',{T:1,E:1,I:1}],['E','高效直接，不绕弯子',{P:2}]]},
+{q:'在完全陌生的城市，你最想做什么？',o:[['A','漫无目的地走，感受它独特的气息和细节',{D:2,I:1}],['B','查资料，按逻辑规划参观路线',{Y:2,L:1}],['C','找当地人聊天，快速融入当地生活',{C:1,S:2}],['D','找到这座城市特有的声音和音乐',{T:2,M:1}],['E','去感受它的历史和诗意，想象过去的故事',{M:2,I:1}]]},
+{q:'你最羡慕哪种能力？',o:[['A','用一个词精确描述某种复杂的感受',{D:1,M:2}],['B','任何时候都能把道理说得无懈可击',{L:2,P:1}],['C','让任何人在自己身边都感到被看见',{S:2,C:1}],['D','把任何系统都优化到极致',{Y:2}],['E','对音乐和语言有天才般的感知力',{T:2,M:1}]]},
+{q:'你觉得「沉默」是？',o:[['A','一种有力的表达，有时比语言更深刻',{I:2,M:1}],['B','需要被打破的尴尬',{E:1,P:1}],['C','对对方的礼貌，不强迫对方说话',{S:1,C:1}],['D','专注的状态，我喜欢安静里的清醒',{I:2,Y:1}],['E','对话里有意义的留白，是节奏的一部分',{T:1,M:2}]]},
+{q:'你认为最难翻译成中文的是什么？',o:[['A','某种只有在那个瞬间才存在的氛围感',{D:2,I:1}],['B','严密的哲学概念和推论结构',{L:2,M:1}],['C','复杂的情感混合状态',{E:2,M:1}],['D','关系之间微妙的层级和礼貌',{S:2,T:1}],['E','一个民族对命运和集体的独特态度',{C:2,I:1}]]},
+{q:'学一门语言，什么时刻让你最满足？',o:[['A','读懂了某个文化里特有的细腻表达',{D:2,M:1}],['B','搞清楚了语法规则背后的逻辑',{L:2,Y:1}],['C','第一次能用这门语言表达真实的情绪',{E:2}],['D','能自如地和母语者沟通，感受彼此连接',{S:1,C:1,T:1}],['E','发现这门语言里某个无法用中文表达的词',{M:2,I:1}]]},
+{q:'面对一门全新的语言，你最先想弄清楚的是？',o:[['A','它的声调、节奏、特殊音色是什么样的',{Ph:2}],['B','句子是按什么逻辑组织的',{Gr:2}],['C','词汇之间是否有可以归纳的系统规律',{Ind:2}],['D','有没有高效记忆大量词汇的方法',{Mc:2}],['E','说这门语言的人是什么样的文化和性格',{}]]},
+{q:'你觉得学语言时自己最大的天然优势是？',o:[['A','听音感知——别人觉得难的发音我通常上手较快',{Ph:2}],['B','语感直觉——我能感觉到「这个用法不太对」',{Gr:2}],['C','举一反三——给我几个例子我能推导出规律',{Ind:2}],['D','联想记忆——我记单词比较快，联想方式比较自然',{Mc:2}],['E','表达欲——我有很强的想用这门语言说话的冲动',{}]]},
+{q:'学语言时，什么体验让你感到最愉悦？',o:[['A','彻底搞清楚某条语法规则背后的逻辑',{ES:-2}],['B','第一次能用这门语言和真实的人产生连接',{ES:2}],['C','发现词汇系统里隐藏的深层规律',{ES:-1}],['D','第一次能用它准确表达某种情绪',{ES:1}],['E','自己搭建出一套高效学习框架',{ES:-2}]]},
+{q:'日常生活里，你更享受哪类体验？',o:[['A','发现某件事的内部规律，然后能预测它的运作',{ES:-2}],['B','和某人有一次真正的情感共鸣',{ES:2}],['C','把一个复杂的系统完全理解透彻',{ES:-2}],['D','察觉到别人没有说出口但需要的东西',{ES:2}],['E','一个人把某个问题独立想明白',{ES:-1}]]},
+{q:'你和时间的关系最接近哪种状态？',o:[['A','我经常沉浸在对过去某件事的回忆或反刍',{past:2}],['B','我活在此刻，不太担心过去或未来',{pres:2}],['C','我经常规划未来，喜欢思考「如果……会怎样」',{fut:2}],['D','我觉得时间是循环的，过去和未来都在当下里',{cyc:2}],['E','我和时间的关系说不清楚，随缘吧',{pres:1}]]},
+{q:'最近一次真正感受到「时间」是什么场景？',o:[['A','想起了很久前的事，感觉那件事还没真正过去',{past:2}],['B','某个平凡的当下突然让我很满足，不想让它结束',{pres:2}],['C','想到几年后的自己，感到期待或焦虑',{fut:2}],['D','发现某件「以前的事」以另一种形式在今天重现了',{cyc:2}],['E','其实没怎么特别感受过时间……',{pres:1}]]}
+];
+
+var N=QS.length;
+var cur=0,ans=Array(N).fill(null);
+document.getElementById('ptot').textContent=N;
+
+function show(id){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById(id).classList.add('on');window.scrollTo(0,0);}
+function startQ(){cur=0;ans=Array(N).fill(null);loadQ(0);show('p1');}
+function restart(){show('p0');}
+
+function loadQ(n){
+  document.getElementById('qnum').textContent='Q'+String(n+1).padStart(2,'0')+' / '+N;
+  document.getElementById('qtext').textContent=QS[n].q;
+  document.getElementById('pf').style.width=Math.round((n+1)/N*100)+'%';
+  document.getElementById('pnum').textContent=n+1;
+  document.getElementById('hint').textContent=n>=19?'💡 这几题关于你的学习方式，没有好坏之分':'☕ 选第一感觉，不要选「应该怎样」的答案';
+  var el=document.getElementById('opts');el.innerHTML='';
+  QS[n].o.forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt'+(ans[n]===o[0]?' sel':'');
+    b.dataset.v=o[0];
+    b.innerHTML='<span class="ol">'+o[0]+'</span>'+o[1];
+    b.onclick=function(){pick(o[0]);};
+    el.appendChild(b);
+  });
+  var bP=document.getElementById('bP');
+  bP.disabled=n===0;bP.style.opacity=n===0?'0.4':'1';
+  document.getElementById('bN').textContent=n===N-1?'看结果 →':'下一页 →';
+}
+
+function pick(v){
+  ans[cur]=v;
+  document.querySelectorAll('.opt').forEach(function(b){b.classList.toggle('sel',b.dataset.v===v);});
+}
+function nextQ(){if(cur>=N-1){calc();return;}cur++;loadQ(cur);}
+function prevQ(){if(cur>0){cur--;loadQ(cur);}}
+
+function cos(a,b){var d=0,na=0,nb=0;for(var i=0;i<a.length;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}return(na&&nb)?d/(Math.sqrt(na)*Math.sqrt(nb)):0;}
+
+function calc(){
+  var uv=Array(10).fill(0),cv={Ph:0,Gr:0,Ind:0,Mc:0},es=0,tp={past:0,pres:0,fut:0,cyc:0};
+  QS.forEach(function(q,i){
+    if(!ans[i])return;
+    var o=q.o.find(function(x){return x[0]===ans[i];});
+    if(!o||!o[2])return;
+    Object.keys(o[2]).forEach(function(k){
+      var idx=DK.indexOf(k);
+      if(idx>=0)uv[idx]+=o[2][k];
+      else if(cv.hasOwnProperty(k))cv[k]+=o[2][k];
+      else if(k==='ES')es+=o[2][k];
+      else if(tp.hasOwnProperty(k))tp[k]+=o[2][k];
+    });
+  });
+  var ctK=Object.keys(cv).reduce(function(a,b){return cv[a]>=cv[b]?a:b;})||'Ind';
+  var esK=es>1?'E':es<-1?'S':'B';
+  var tpK=Object.keys(tp).reduce(function(a,b){return tp[a]>=tp[b]?a:b;})||'pres';
+  var ranked=LANGS.slice().sort(function(a,b){return cos(uv,b.v)-cos(uv,a.v);});
+  render(ranked[0],ranked.slice(1,5),uv,ctK,esK,tpK);
+  show('p2');
+}
+
+function bdg(t){return '<span class="bdg">'+t+'</span>';}
+function card(id,lbl,html){document.getElementById(id).innerHTML='<div class="cl">'+lbl+'</div><div class="ct">'+html+'</div>';}
+
+function render(L,oth,uv,ctK,esK,tpK){
+  function ft(s){return s.replace(/\{L\}/g,L.n);}
+  document.getElementById('rH').innerHTML='<div class="rf">'+L.f+'</div><div class="rn">'+L.n+'</div><div class="rt">「'+L.t+'」</div>';
+  card('rG','你的'+L.n+'基因',L.nr);
+  card('rC','🎯 你的习得风格'+bdg(CTlb[ctK]),ft(CTtx[ctK]));
+  card('rE','🧩 你的认知类型'+bdg(ESlb[esK]),ft(EStx[esK]));
+  card('rT','⏳ 你的时间感'+bdg(TPlb[tpK]),ft(TPtx[tpK]));
+  var xH='<div class="cl">🔤 这门语言里中文没有的词</div>';
+  L.ex.forEach(function(e,i){xH+='<div class="ei'+(i===L.ex.length-1?' last':'')+'" style="'+(i===L.ex.length-1?'margin:0;padding:0;border:none':'')+'"><div class="ew">'+e[0]+'</div><div class="em">'+e[1]+'</div><div class="ey">'+e[2]+'</div></div>';});
+  document.getElementById('rX').innerHTML=xH;
+  var mx=Math.max.apply(null,uv.concat([1]));
+  var dH='<div class="cl">📊 你的认知维度 Top 5</div>';
+  uv.map(function(v,i){return{n:DN[i],v:v};}).sort(function(a,b){return b.v-a.v;}).slice(0,5).forEach(function(d){
+    var p=Math.round(d.v/mx*88);
+    dH+='<div class="bi"><div class="bn">'+d.n+'</div><div class="bk"><div class="bf" data-p="'+p+'"></div></div><div class="bv">'+p+'</div></div>';
+  });
+  document.getElementById('rD').innerHTML=dH;
+  var ms=Math.max.apply(null,oth.map(function(l){return cos(uv,l.v);}).concat([0.001]));
+  var oH='<div class="cl">🌍 最接近你的其他语言</div>';
+  oth.forEach(function(l){var p=Math.round(cos(uv,l.v)/ms*82);oH+='<div class="bi"><div class="bn" style="width:80px">'+l.f+' '+l.n+'</div><div class="bk"><div class="bg" data-p="'+p+'"></div></div><div class="bv">'+p+'</div></div>';});
+  document.getElementById('rO').innerHTML=oH;
+  var aH='<div class="cl">📚 专属入门建议</div>';
+  L.ac.forEach(function(a,i){aH+='<div class="ti"><div class="tn">'+(i+1)+'</div><div>'+a+'</div></div>';});
+  document.getElementById('rA').innerHTML=aH;
+  setTimeout(function(){document.querySelectorAll('.bf,.bg').forEach(function(el){el.style.width=el.dataset.p+'%';});},150);
+}
+</script>
+</body>
+</html>
